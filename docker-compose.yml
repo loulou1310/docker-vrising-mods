@@ -1,22 +1,15 @@
 services:
   vrising:
-    image: trueosiris/vrising
+    restart: unless-stopped
+    container_name: vrising-server-mods
+    image: fork
+    network_mode: bridge
     environment:
-      - TZ=Europe/Paris
-      - SERVERNAME=vrising-TrueOsiris
+      - ENABLE_MODS=1
     volumes:
-      - type: bind
-        source: /your/host/vrising/server
-        target: /mnt/vrising/server
-        bind:
-          create_host_path: true
-      - type: bind
-        source: /your/host/vrising/persistentdata
-        target: /mnt/vrising/persistentdata
-        bind:
-          create_host_path: true
+      - '/home/maxime/vrising-2/server:/mnt/vrising/server'
+      - '/home/maxime/vrising-2/data:/mnt/vrising/persistentdata'
+      - '/home/maxime/vrising-2/mods:/mnt/vrising/mods'
     ports:
       - '9876:9876/udp'
       - '9877:9877/udp'
-    restart: unless-stopped
-    network_mode: bridge
